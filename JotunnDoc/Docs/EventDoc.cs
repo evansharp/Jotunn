@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -121,6 +121,11 @@ end group
 note over Valheim #lightblue: Game interactable
 
 @enduml");
+        }
+
+        private void Clear()
+        {
+            throw new NotImplementedException();
         }
 
         [HarmonyPatch]

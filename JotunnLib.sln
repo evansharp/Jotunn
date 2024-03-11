@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30717.126
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JotunnLib", "JotunnLib\JotunnLib.csproj", "{A6082A59-38BE-4CAB-9078-2C8FCDA65B8F}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JotunnDoc", "JotunnDoc\Jotu
 		{A6082A59-38BE-4CAB-9078-2C8FCDA65B8F} = {A6082A59-38BE-4CAB-9078-2C8FCDA65B8F}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JotunnBuildTask", "JotunnBuildTask\JotunnBuildTask.csproj", "{839DFF98-EE10-4BA6-879F-5BF628889F4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JotunnBuildTask", "JotunnBuildTask\JotunnBuildTask.csproj", "{839DFF98-EE10-4BA6-879F-5BF628889F4F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resources", "resources", "{C48162A3-C7D9-4A0F-8CE2-C617FFFE6EB9}"
 	ProjectSection(SolutionItems) = preProject
@@ -30,6 +30,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resources", "resources", "{
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JotunnTests", "JotunnTests\JotunnTests.csproj", "{63288C44-A2D3-4723-8A45-E71379889CAC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8B75F7C3-679C-4A45-B3C4-D72BBBB10C00}"
+	ProjectSection(SolutionItems) = preProject
+		DoPrebuild.props = DoPrebuild.props
+		Environment.props = Environment.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
