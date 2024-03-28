@@ -137,36 +137,22 @@ namespace JotunnDoc
         }
 
 
-        internal static bool RequestSprite(string path, GameObject prefab)
+        internal static bool RequestIcon(string path, Sprite icon)
         {
             if (File.Exists(path))
             {
                 Jotunn.Logger.LogDebug($"Sprite image at {path} already exists, not recreating");
                 return true;
             }
-
-            var success = false;
-
-            foreach (var sprite in sprites)
+            else
             {
-                if (sprite.name == prefab.name)
-                {
-                    var texture = sprite.texture;
-                    var bytes = texture.EncodeToPNG();
 
-                    File.WriteAllBytes(path, bytes);
+                byte[] encoded = ImageConversion.EncodeToPNG( icon.texture);
 
-                    success = true;
-                }
+                File.WriteAllBytes(path, encoded);
 
-                //AddTableRow(sprite.name, sprite.texture.name, sprite.textureRect.ToString());
+                return true;
             }
-            if (!success)
-            {
-                return false;
-            }
-
-            return true;
         }
 
         // stupid project method that I need to keep becasue of refrences I don't care to change.

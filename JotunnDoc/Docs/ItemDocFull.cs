@@ -40,10 +40,11 @@ namespace JotunnDoc.Docs
 
             foreach (GameObject obj in ObjectDB.instance.m_items.Where(x => !CustomItem.IsCustomItem(x.name)))
             {
-                ItemDropWithAttr item = new ItemDropWithAttr( obj.GetComponent<ItemDrop>() );
+                ItemDrop drop = obj.GetComponent<ItemDrop>();
 
+                ItemDropWithAttr item = new ItemDropWithAttr( drop.m_itemData.m_shared );
 
-                ItemDrop.ItemData.SharedData shared = item.Payload.m_itemData.m_shared;
+                ItemDrop.ItemData.SharedData shared = item.Payload;
 
                 item.EngName = JotunnDoc.Localize(shared.m_name);
                 item.EngDesc = JotunnDoc.Localize(shared.m_description);
@@ -53,39 +54,22 @@ namespace JotunnDoc.Docs
                 string itemToJson = JsonUtility.ToJson( item );
                 AddText(itemToJson);
 
+                
                 //==== export render PNG
+                
                 string RenderPath = Path.Combine(DocumentationDirConfig.Value, "Renders", obj.name);
                 RenderPath += ".png";
-
-                // Create directory if it doesn't exist
                 new FileInfo( RenderPath ).Directory.Create();
 
-                //write sprite PNG
-                RequestRender(RenderPath, obj, RenderManager.IsometricRotation);
+                //RequestRender(RenderPath, obj, RenderManager.IsometricRotation);
 
                 //==== export icon PNG
-                string SpritePath = Path.Combine(DocumentationDirConfig.Value, "Sprites", obj.name);
-                SpritePath += ".png";
+                string IconPath = Path.Combine(DocumentationDirConfig.Value, "Icons", obj.name);
+                IconPath += ".png";
+                new FileInfo(IconPath).Directory.Create();
 
-                // Create directory if it doesn't exist
-                new FileInfo(SpritePath).Directory.Create();
-
-                //write icon PNG
-                RequestSprite(SpritePath, obj);
-
-                // Export a single item
-                //if (shared.m_name == "$item_legs_iron")
-                //{
-                //    string itemToJson = JsonUtility.ToJson(item);
-                //    AddText(itemToJson);
-                //}
-
-                // Original plugin data refs
-                //    obj.name,                                       // Prefab
-                //    shared.m_name,                                  // Token
-                //    JotunnDoc.Localize(shared.m_name),              // Name
-                //    shared.m_itemType.ToString(),                   // Type
-                //    JotunnDoc.Localize(shared.m_description)        // Description
+                Sprite icon = drop.m_itemData.GetIcon();
+                //RequestIcon(IconPath, icon);
 
             }
             Save();
@@ -100,9 +84,9 @@ namespace JotunnDoc.Docs
         public string EngName;
         public string EngDesc;
         public string EngType;
-        public ItemDrop Payload;
+        public ItemDrop.ItemData.SharedData Payload;
 
-        public ItemDropWithAttr( ItemDrop item)
+        public ItemDropWithAttr(ItemDrop.ItemData.SharedData item)
         {
             Payload = item;
         }
