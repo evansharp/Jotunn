@@ -139,6 +139,8 @@ namespace JotunnDoc
 
         internal static bool RequestIcon(string path, Sprite icon)
         {
+            // https://github.com/MSchmoecker/VNEI/blob/4b12d07a09f292cc57d3de4c7f0c01397df10e7d/VNEI/Logic/Export/IconExport.cs#L30
+
             if (File.Exists(path))
             {
                 Jotunn.Logger.LogDebug($"Sprite image at {path} already exists, not recreating");
@@ -146,10 +148,28 @@ namespace JotunnDoc
             }
             else
             {
+                int width = icon.texture.width;
+                int height = icon.texture.height;
 
-                byte[] encoded = ImageConversion.EncodeToPNG( icon.texture);
+                RenderTexture renderTexture = RenderTexture.GetTemporary(width, height);
+                Graphics.Blit(icon.texture, renderTexture);
+                RenderTexture previous = RenderTexture.active;
+                RenderTexture.active = renderTexture;
 
-                File.WriteAllBytes(path, encoded);
+                int iconWidth = (int)icon.rect.width;
+                int iconHeight = (int)icon.rect.height;
+
+                int iconPosX = (int)(icon.textureRect.x - icon.textureRectOffset.x);
+                int iconPosY = (int)(height - (icon.textureRect.y - icon.textureRectOffset.y + iconHeight));
+
+                Texture2D readableTexture = new Texture2D(iconWidth, iconHeight);
+                readableTexture.ReadPixels(new Rect(iconPosX, iconPosY, iconWidth, iconHeight), 0, 0);
+                readableTexture.Apply();
+
+                RenderTexture.active = previous;
+                RenderTexture.ReleaseTemporary(renderTexture);
+
+                File.WriteAllBytes(path, readableTexture.EncodeToPNG());
 
                 return true;
             }

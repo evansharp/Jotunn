@@ -49,6 +49,7 @@ namespace JotunnDoc.Docs
                 item.EngName = JotunnDoc.Localize(shared.m_name);
                 item.EngDesc = JotunnDoc.Localize(shared.m_description);
                 item.EngType = shared.m_itemType.ToString();
+                item.IconFileName = obj.name + ".png";
 
                 // ==== write item object to a line of the export file
                 string itemToJson = JsonUtility.ToJson( item );
@@ -67,9 +68,12 @@ namespace JotunnDoc.Docs
                 string IconPath = Path.Combine(DocumentationDirConfig.Value, "Icons", obj.name);
                 IconPath += ".png";
                 new FileInfo(IconPath).Directory.Create();
+                if (drop.m_itemData.m_shared.m_icons.Count() > 0)
+                {
+                    Sprite icon = drop.m_itemData.m_shared.m_icons[0];
+                    RequestIcon(IconPath, icon);
+                }
 
-                Sprite icon = drop.m_itemData.GetIcon();
-                //RequestIcon(IconPath, icon);
 
             }
             Save();
@@ -84,6 +88,7 @@ namespace JotunnDoc.Docs
         public string EngName;
         public string EngDesc;
         public string EngType;
+        public string IconFileName;
         public ItemDrop.ItemData.SharedData Payload;
 
         public ItemDropWithAttr(ItemDrop.ItemData.SharedData item)
